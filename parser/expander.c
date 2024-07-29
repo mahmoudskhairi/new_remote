@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarzouk <rmarzouk@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mskhairi <mskhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:27:32 by rmarzouk          #+#    #+#             */
-/*   Updated: 2024/07/26 12:16:15 by rmarzouk         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:35:25 by mskhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
+extern int exit_status;
 int	_check_before(t_item *list)
 {
 	if (list->prev)
@@ -68,6 +69,13 @@ void	expander(t_env *env_l, t_item *list)
 	{
 		if (list->type == ENV)
 		{
+			if (!ft_strncmp(list->content, "$?", ft_strlen(list->content)))
+			{
+				tmp = list->content;
+				list->content = ft_itoa(exit_status);
+				free(tmp);
+				return;
+			}
 			if (!check_herdoc(list))
 			{
 				tmp = list->content;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   organize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarzouk <rmarzouk@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mskhairi <mskhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:37:20 by rmarzouk          #+#    #+#             */
-/*   Updated: 2024/07/26 12:06:31 by rmarzouk         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:35:56 by mskhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_item	*organizer(t_env *env_l, t_item *list)
 	t_item	*new_list;
 
 	new_list = NULL;
+	// print_list(list);
 	expander(env_l, list);
 	ft_new_list(list, &new_list);
 	last_tokinization(new_list);

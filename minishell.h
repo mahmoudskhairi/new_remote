@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarzouk <rmarzouk@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mskhairi <mskhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:34:55 by mskhairi          #+#    #+#             */
-/*   Updated: 2024/07/27 12:48:13 by rmarzouk         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:51:37 by mskhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>	
 # include <stdbool.h>
 # include <fcntl.h>
+#include <sys/wait.h>
 
 /*---------------------------[ enum ]------------------------------*/
 
@@ -57,6 +58,7 @@ enum					e_state
 # define AFTER_PIPE 100
 # define BEFORE_PIPE 101
 # define BETWEEN_PIPES 102
+# define NO_PIPE 103
 
 /*------------------------[ typedefs ]----------------------------*/
 

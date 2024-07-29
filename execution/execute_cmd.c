@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarzouk <rmarzouk@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mskhairi <mskhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:05:09 by rmarzouk          #+#    #+#             */
-/*   Updated: 2024/07/28 15:15:06 by rmarzouk         ###   ########.fr       */
+/*   Updated: 2024/07/29 23:02:39 by mskhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+extern	int	exit_status;
 
 int	handle_pipes(t_simple_cmd *cmd)
 {
@@ -98,15 +100,20 @@ int	_execute(t_simple_cmd *cmd, t_data *data)// child process
 int	handle_cmd(t_simple_cmd *cmd, t_data *data)
 {
 	int pid;
+	int state;
 
 	pid = fork();
-	if (!pid)// child 
+	signal(SIGQUIT, SIG_DFL);
+	if (!pid)// child
 	{
 		// printf("\n\033[0;32m=============================================================\033[0m\n");
 		handle_here_doc(cmd);
 		handle_redirections(cmd);
 		if (check_builtin(cmd->cmd_name))
+		{
 			builtin_cmd(cmd, data, check_builtin(cmd->cmd_name));
+			exit(0);
+		}
 		else
 			_execute(cmd, data);
 		// printf("\n\033[0;32m=============================================================\033[0m\n");
@@ -121,16 +128,31 @@ int	handle_cmd(t_simple_cmd *cmd, t_data *data)
 			close(cmd->prev->pipe[1]);
 			// printf("close pipe [%d, %d] in parent\n", cmd->prev->pipe[0], cmd->prev->pipe[1]);
 		}
-		wait(NULL);
+		waitpid(pid, &state, 0);
+		if (WIFSIGNALED(state))
+		{
+			exit_status = WTERMSIG(state);
+			printf("sig ==> %d\n", exit_status);
+		}
+		else if (WIFEXITED(state))
+		{
+			exit_status = WEXITSTATUS(state);
+			printf("GEN ==> %d\n", exit_status);
+		}
 	}
 	return (0);
 }
 
 int	execute_cmd(t_simple_cmd *cmd, t_data *data)
 {
+	if (cmd->pipe_flag == NO_PIPE)
+	{
+		handle_cmd(cmd, data);
+		return(1);
+	}
 	while (cmd)
 	{
-		if (!cmd->next && check_builtin(cmd->cmd_name))
+		if (check_builtin(cmd->cmd_name))
 		{
 			builtin_cmd(cmd, data, check_builtin(cmd->cmd_name));
 			break;

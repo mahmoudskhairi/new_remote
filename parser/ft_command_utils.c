@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarzouk <rmarzouk@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mskhairi <mskhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 10:40:06 by rmarzouk          #+#    #+#             */
-/*   Updated: 2024/07/27 12:50:29 by rmarzouk         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:57:37 by mskhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ t_redir	*set_redirs(t_cmd_limits *cmd, int num)
 void	set_pipe_flag(t_simple_cmd *head, int cmd_nbr)
 {
 	if (cmd_nbr == 1)
+	{
+		head->pipe_flag = NO_PIPE;
 		return ;
+	}
 	while (head)
 	{
 		if (head->i == 0)

@@ -6,11 +6,13 @@
 /*   By: mskhairi <mskhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:15:02 by rmarzouk          #+#    #+#             */
-/*   Updated: 2024/07/28 09:51:27 by mskhairi         ###   ########.fr       */
+/*   Updated: 2024/07/29 22:57:08 by mskhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+
+extern int exit_status;
 
 int is_number(char *str)
 {
@@ -30,18 +32,20 @@ int check_args(char **cmd)
 {
 	//chech if !cmd[1] ==> exit(0);
 	if (!cmd[1])
-		exit(0);
+		exit(EXIT_SUCCESS);
 	//chech if num_of cmd > 2 ==> print too many args  ==> exit(check exit status in bash);
 	if (cmd[1] && cmd[2])
 	{
-		printf("logout\n-bash: exit: too many arguments\n");
-		exit(1);// exit(check exit status in bash);
+		printf("logout\n-bash: exit: too many arguments\n"); 
+		// exit_status = 1;
+		exit(EXIT_FAILURE);// exit(check exit status in bash);
 	}
 	// check if is_number(cmd[i]) else ==> print arg is not numeric ==> exit(check exit status in bash) ;
 	if (is_number(cmd[1]))
 	{
 		printf("arguments must be numeric\n");//check the behavior of bash
-		exit(1);// exit(check exit status in bash);
+		exit_status = 255;
+		exit(exit_status);// exit(check exit status in bash);
 	}
 	return (0);
 }
